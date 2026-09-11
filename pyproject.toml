@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cyberdeck-eink"
+version = "0.1.0"
+description = "Configurable UART e-ink support for a Raspberry Pi cyberdeck"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [
+  { name = "Kristian Peacocke" }
+]
+dependencies = [
+  "PyYAML>=6.0",
+  "pyserial>=3.5"
+]
+
+[project.scripts]
+cyberdeck-eink = "cyberdeck_eink.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
