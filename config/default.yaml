@@ -1,0 +1,33 @@
+device:
+  name: "KP Cyberdeck"
+  host: "192.168.1.29"
+  ssh_user: "kpeacocke"
+
+display:
+  interface: "uart"
+  serial_device: "/dev/serial0"
+  baud_rate: 115200
+  timeout_seconds: 2.0
+  rotation: 0
+  driver: "unconfigured"
+
+wiring:
+  tx:
+    colour: null
+    physical_pin: null
+    gpio: null
+  rx:
+    colour: null
+    physical_pin: null
+    gpio: null
+  power:
+    colour: null
+    physical_pin: null
+  ground:
+    colour: null
+    physical_pin: null
+
+notes:
+  - "These are KP's cyberdeck connection defaults."
+  - "The final physical pin and wire-colour mapping still needs to be confirmed on the deck."
+  - "Do not store SSH private keys or other credentials in this file."
