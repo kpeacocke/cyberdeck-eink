@@ -1,0 +1,28 @@
+device:
+  name: "My Cyberdeck"
+  host: "raspberrypi.local"
+  ssh_user: "pi"
+
+display:
+  interface: "uart"
+  serial_device: "/dev/serial0"
+  baud_rate: 115200
+  timeout_seconds: 2.0
+  rotation: 0
+  driver: "unconfigured"
+
+wiring:
+  tx:
+    colour: "example-colour"
+    physical_pin: null
+    gpio: null
+  rx:
+    colour: "example-colour"
+    physical_pin: null
+    gpio: null
+  power:
+    colour: "example-colour"
+    physical_pin: null
+  ground:
+    colour: "example-colour"
+    physical_pin: null
