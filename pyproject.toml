@@ -17,6 +17,11 @@ dependencies = [
   "pyserial>=3.5"
 ]
 
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0"
+]
+
 [project.scripts]
 cyberdeck-eink = "cyberdeck_eink.cli:main"
 
