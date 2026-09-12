@@ -3,15 +3,27 @@ device:
   host: "192.168.1.29"
   ssh_user: "kpeacocke"
 
+hardware:
+  inspected_at: "2026-09-11T21:20:44+10:00"
+  hostname: "KP-Pi5"
+  model: "Raspberry Pi 5 Model B Rev 1.1"
+  os: "Debian GNU/Linux 13.6 (trixie)"
+  kernel: "6.18.39+rpt-rpi-2712"
+
 display:
   interface: "uart"
-  serial_device: "/dev/serial0"
-  baud_rate: 115200
+  serial_device: "/dev/ttyAMA10"
+  expected_serial_device: "/dev/ttyAMA10"
+  baud_rate: 115200  # Existing panel app configuration; current handshake fails.
   timeout_seconds: 2.0
-  rotation: 0
+  rotation: 0  # Application preference; panel orientation unverified.
   driver: "unconfigured"
+  candidate_model: "Waveshare 4.3-inch UART e-Paper"
+  identification_source: "/opt/pi-environment-panel README and /etc/pi-environment-panel/config.toml"
+  current_handshake_verified: false
 
 wiring:
+  connection: "Pi 5 dedicated debug/UART connector (existing application documentation)"
   tx:
     colour: null
     physical_pin: null
@@ -21,13 +33,31 @@ wiring:
     physical_pin: null
     gpio: null
   power:
-    colour: null
-    physical_pin: null
+    colour: "red"
+    physical_pin: 17
+    voltage: 3.3  # User-confirmed connection.
   ground:
     colour: null
     physical_pin: null
+  wake:
+    colour: "yellow"
+    gpio: 22
+    physical_pin: 15
+  reset:
+    colour: "blue"
+    gpio: 17
+    physical_pin: 11
+  cable_verified: false
 
 notes:
-  - "These are KP's cyberdeck connection defaults."
-  - "The final physical pin and wire-colour mapping still needs to be confirmed on the deck."
-  - "Do not store SSH private keys or other credentials in this file."
+  - "Existing pi-environment-panel documents a prior OK handshake on ttyAMA10 at 115200."
+  - "Current probes receive no bytes, including after wake and reset."
+  - "serial0 changed targets across boots; use explicit ttyAMA10 for display and ttyAMA0 for modem."
+  - "Auxiliary wiring corrected from user confirmation: red pin17, yellow pin15, blue pin11."
+  - "The rendering driver exists in /opt/pi-environment-panel; this package remains diagnostics/transport."
+
+gps:
+  model: "SIMCOM SIM7600NA-H"
+  serial_device: "/dev/ttyAMA0"
+  baud_rate: 115200
+  driver_project: "https://github.com/kpeacocke/pi-environment-panel"

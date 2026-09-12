@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import argparse
-import json
 import sys
 
 from .config import load_config
@@ -45,7 +44,8 @@ def _diagnose(config) -> int:
 
     print("Cyberdeck E-Ink Diagnostics")
     print()
-    print(f"Host:            {config.device.host}")
+    print(f"Configured host: {config.device.host}")
+    print(f"Inspected host:  {result['local_hostname']} (local; no SSH)")
     print(f"Config:          {config.source}")
     print(f"Serial device:   {result['device']}")
     print(f"Exists:          {'yes' if result['exists'] else 'no'}")
@@ -55,12 +55,23 @@ def _diagnose(config) -> int:
     print(f"Baud rate:       {result['baud_rate']}")
     print(f"Driver:          {config.display.driver}")
 
+    print(f"Owner group:     {result['owner_group'] or '-'}")
+    print(f"Permissions:     {result['mode'] or '-'}")
+    print(f"Expected target: {result['expected_serial_device'] or 'not constrained'}")
+    print("Display identity, physical wiring and baud rate are not verified by this check.")
+
     if not result["exists"]:
         print("\nFAIL: configured UART device does not exist.", file=sys.stderr)
         return 2
+    if not result["character_device"] or result["mapping_matches"] is False:
+        print("\nFAIL: UART is not a character device or resolves to an unexpected target.", file=sys.stderr)
+        return 4
     if not result["readable"] or not result["writable"]:
         print("\nFAIL: current user does not have read/write access to the UART.", file=sys.stderr)
         return 3
+    if config.display.baud_rate is None:
+        print("\nUART is available. Display baud rate is unverified; transport opening is blocked.")
+        return 0
     if config.display.driver == "unconfigured":
         print("\nUART is available. Display controller driver is not configured yet.")
         return 0

@@ -13,10 +13,11 @@ import yaml
 class DisplayConfig:
     interface: str
     serial_device: str
-    baud_rate: int
+    baud_rate: int | None
     timeout_seconds: float
     rotation: int
     driver: str
+    expected_serial_device: str | None = None
 
 
 @dataclass(frozen=True)
@@ -79,7 +80,7 @@ def load_config(explicit: str | None = None) -> AppConfig:
     if display["interface"] != "uart":
         raise ValueError("Version 0.1 supports only display.interface: uart")
 
-    if int(display["baud_rate"]) <= 0:
+    if display["baud_rate"] is not None and int(display["baud_rate"]) <= 0:
         raise ValueError("display.baud_rate must be greater than zero")
 
     if int(display["rotation"]) not in (0, 90, 180, 270):
@@ -94,10 +95,11 @@ def load_config(explicit: str | None = None) -> AppConfig:
         display=DisplayConfig(
             interface=str(display["interface"]),
             serial_device=str(display["serial_device"]),
-            baud_rate=int(display["baud_rate"]),
+            baud_rate=int(display["baud_rate"]) if display["baud_rate"] is not None else None,
             timeout_seconds=float(display["timeout_seconds"]),
             rotation=int(display["rotation"]),
             driver=str(display["driver"]),
+            expected_serial_device=display.get("expected_serial_device"),
         ),
         raw=raw,
         source=path,
