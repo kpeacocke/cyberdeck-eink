@@ -4,7 +4,7 @@ device:
   ssh_user: "kpeacocke"
 
 hardware:
-  inspected_at: "2026-09-11T21:20:44+10:00"
+  inspected_at: "2026-09-13T08:43:24+10:00"
   hostname: "KP-Pi5"
   model: "Raspberry Pi 5 Model B Rev 1.1"
   os: "Debian GNU/Linux 13.6 (trixie)"
@@ -14,13 +14,13 @@ display:
   interface: "uart"
   serial_device: "/dev/ttyAMA10"
   expected_serial_device: "/dev/ttyAMA10"
-  baud_rate: 115200  # Existing panel app configuration; current handshake fails.
+  baud_rate: 115200  # Confirmed successful service handshake and command sends.
   timeout_seconds: 2.0
   rotation: 0  # Application preference; panel orientation unverified.
   driver: "unconfigured"
   candidate_model: "Waveshare 4.3-inch UART e-Paper"
   identification_source: "/opt/pi-environment-panel README and /etc/pi-environment-panel/config.toml"
-  current_handshake_verified: false
+  current_handshake_verified: true
 
 wiring:
   connection: "Pi 5 dedicated debug/UART connector (existing application documentation)"
@@ -51,7 +51,8 @@ wiring:
 
 notes:
   - "Existing pi-environment-panel documents a prior OK handshake on ttyAMA10 at 115200."
-  - "Current probes receive no bytes, including after wake and reset."
+  - "2026-09-13 08:43 AEST: service handshake succeeded; UART10 TX 1457/RX 124; user confirms live updates."
+  - "One failed handshake recovered on the next attempt; earlier failures do not establish a cable fault."
   - "serial0 changed targets across boots; use explicit ttyAMA10 for display and ttyAMA0 for modem."
   - "Auxiliary wiring corrected from user confirmation: red pin17, yellow pin15, blue pin11."
   - "The rendering driver exists in /opt/pi-environment-panel; this package remains diagnostics/transport."

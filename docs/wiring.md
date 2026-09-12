@@ -86,18 +86,22 @@ flow-control function; UART0 CTS/RTS is not enabled.
 
 ## Observations and remaining uncertainty
 
-The existing dashboard README recorded an earlier successful `OK` response at
-115200 on `ttyAMA10`. The user also reported a visible dashboard after restarting.
-However, the next live inspection showed recurring failed handshakes and zero
-UART10 RX bytes since that boot. A static retained e-paper image is not proof of
-continuing updates. The root cause of this intermittent/unverified display path
-has not been established. No boot/UART configuration changes were made by this work.
+Read-only inspection on 13 September 2026 at 08:43 AEST confirmed successful
+service handshakes and command sends on `/dev/ttyAMA10` at 115200. The user
+confirmed visible live readings. Sends were logged at 08:35:54 and 08:42:53;
+a failed handshake at 08:41:51 recovered on the next attempt. UART10 counters
+were TX 1457, RX 124, and `display-status.json` reported `handshake_ok: true`.
+The installed app is version 0.1.6 with WAKE GPIO22 and RESET GPIO17.
 
-The systemd working directory was corrected to `/var/lib/pi-environment-panel`
-after lgpio FIFO creation errors in `/`. The running app's explicit port, baud,
-WAKE GPIO22 and RESET GPIO17 were verified. Reset/wake tests did not establish a
-working serial exchange. The updated dashboard records display command-send status
-separately from sensor sampling. It does not mark failed handshakes as success.
+Earlier inspections on 12 September recorded failed exchanges. Their cause
+remains unresolved; no cable fault was established. Successful operation now
+confirms the display path works, without proving every physical conductor's
+continuity independently. No reboot, service restart, serial probe or GPIO
+change was performed during the working-state capture.
+
+The systemd working directory was previously corrected to
+`/var/lib/pi-environment-panel` after lgpio FIFO creation errors in `/`.
+The dashboard records display command-send status separately from sensor sampling.
 
 The SIM7600NA-H replied to AT commands on `ttyAMA0` at 115200. Its GNSS engine
 was off; enabling it returned OK. GPS-based weather is implemented in the dashboard.
