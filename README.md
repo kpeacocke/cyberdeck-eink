@@ -1,14 +1,35 @@
 # Cyberdeck E-Ink
 
-The complete on-device dashboard and GPS weather implementation live in
+The complete on-device dashboard, GPS/weather and Sense HAT runtime implementation lives in
 [kpeacocke/pi-environment-panel](https://github.com/kpeacocke/pi-environment-panel).
-This repository records the cyberdeck hardware and provides UART diagnostics.
+This repository records the cyberdeck e-ink hardware, UART configuration and display diagnostics.
+
+The two repositories are deliberately complementary rather than competing implementations:
+
+- **cyberdeck-eink** owns the physical e-ink connection, UART diagnostics, wiring metadata and controller boundary;
+- **pi-environment-panel** owns live state collection, Sense HAT integration, GPS/weather/system data, persistence and the rendered e-ink dashboard.
+
+The panel project writes its current machine-readable state to `latest.json`, so future cyberdeck services can consume the same sensor state without talking directly to the Sense HAT or display.
+
+## Sense HAT expansion
+
+The official Raspberry Pi Sense HAT is treated as part of the same field-status system as the e-ink display. The panel collects:
+
+- temperature, humidity and barometric pressure;
+- compass heading;
+- pitch, roll and yaw;
+- raw accelerometer and gyroscope values;
+- derived movement magnitude and `MOVING` / `STATIONARY` state.
+
+The e-ink status footer exposes heading, motion state and GPS fix, while the complete data set is retained in the panel state JSON for other cyberdeck software.
+
+See [`docs/sense-hat-integration.md`](docs/sense-hat-integration.md).
+
+## Current scope
 
 A small Python project for driving and testing the UART-connected e-ink display in KP's Raspberry Pi 5 cyberdeck.
 
 The project keeps hardware settings out of application code. The committed defaults describe KP's deck, while other users can copy `config/example.yaml` and override the serial device, baud rate, rotation and wiring metadata without changing Python.
-
-## Current scope
 
 The first version deliberately does three things:
 
