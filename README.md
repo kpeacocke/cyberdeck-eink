@@ -15,13 +15,9 @@ The panel project writes its current machine-readable state to `latest.json`, so
 
 The official Raspberry Pi Sense HAT is treated as part of the same field-status system as the e-ink display. The panel collects:
 
-- temperature, humidity and barometric pressure;
-- compass heading;
-- pitch, roll and yaw;
-- raw accelerometer and gyroscope values;
-- derived movement magnitude and `MOVING` / `STATIONARY` state.
+- temperature, humidity, pressure and derived dew point.
 
-The e-ink status footer exposes heading, motion state and GPS fix, while the complete data set is retained in the panel state JSON for other cyberdeck software.
+The complete panel state is retained in `latest.json` for other cyberdeck software.
 
 See [`docs/sense-hat-integration.md`](docs/sense-hat-integration.md).
 
