@@ -22,7 +22,7 @@ The panel records:
 - derived movement magnitude;
 - derived `MOVING` / `STATIONARY` status.
 
-The e-ink page intentionally displays only the field-useful subset: heading, motion state and GPS fix. The complete values remain available in `latest.json`.
+The e-ink page currently displays environment, weather, power, Pi health and overall status. The collected values remain available in `latest.json`.
 
 ## Important hardware note
 
